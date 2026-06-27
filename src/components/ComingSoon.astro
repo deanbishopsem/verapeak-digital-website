@@ -1,0 +1,150 @@
+---
+// Standalone "coming soon" page — shown for every route while the site is paused.
+// To bring the full site back, see src/pages-paused/ and the note in README.
+const title = 'Verapeak Digital — Coming Soon';
+const description = 'Verapeak Digital is launching soon. Data-driven digital marketing that moves your numbers.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/assets/logo-square.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #0F2A2E;
+        --teal: #0F766E;
+        --teal-dark: #0B5953;
+        --mint: #2DD4BF;
+        --mint-light: #5EEAD4;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        color: #e7f4f2;
+        background:
+          radial-gradient(110% 110% at 80% 0%, rgba(45, 212, 191, 0.18) 0%, transparent 55%),
+          radial-gradient(90% 90% at 0% 100%, rgba(15, 118, 110, 0.35) 0%, transparent 60%),
+          var(--ink);
+        min-height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 32px;
+        text-align: center;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 560px; width: 100%; }
+      .logo {
+        background: #fff;
+        border-radius: 16px;
+        padding: 18px 24px;
+        display: inline-block;
+        margin-bottom: 40px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      }
+      .logo img { height: 48px; width: auto; display: block; }
+      .badge {
+        display: inline-block;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--mint-light);
+        border: 1px solid rgba(94, 234, 212, 0.35);
+        background: rgba(94, 234, 212, 0.08);
+        padding: 7px 16px;
+        border-radius: 999px;
+        margin-bottom: 28px;
+      }
+      h1 {
+        font-size: clamp(2.2rem, 6vw, 3.4rem);
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        color: #fff;
+        margin-bottom: 18px;
+      }
+      h1 .grad {
+        background: linear-gradient(110deg, var(--mint-light), var(--mint));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      p.lead {
+        font-size: 1.12rem;
+        line-height: 1.6;
+        color: #b9d6d2;
+        max-width: 46ch;
+        margin: 0 auto 36px;
+      }
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--ink);
+        background: linear-gradient(110deg, var(--mint-light), var(--mint));
+        padding: 14px 28px;
+        border-radius: 999px;
+        text-decoration: none;
+        transition: transform 0.15s ease, box-shadow 0.2s ease;
+        box-shadow: 0 12px 30px rgba(45, 212, 191, 0.25);
+      }
+      .cta:hover { transform: translateY(-2px); box-shadow: 0 16px 38px rgba(45, 212, 191, 0.35); }
+      .meta {
+        margin-top: 44px;
+        font-size: 0.9rem;
+        color: #8fb3af;
+      }
+      .meta a { color: var(--mint-light); text-decoration: none; }
+      .meta a:hover { text-decoration: underline; }
+      .dots { display: inline-flex; gap: 6px; margin-bottom: 28px; }
+      .dots span {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: var(--mint);
+        animation: pulse 1.4s ease-in-out infinite;
+      }
+      .dots span:nth-child(2) { animation-delay: 0.2s; opacity: 0.7; }
+      .dots span:nth-child(3) { animation-delay: 0.4s; opacity: 0.45; }
+      @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.5); } }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <div class="logo">
+        <img src="/assets/logo.svg" alt="Verapeak Digital" width="200" height="75" />
+      </div>
+
+      <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+
+      <div><span class="badge">Coming Soon</span></div>
+
+      <h1>Something great is <span class="grad">on the way</span>.</h1>
+      <p class="lead">
+        We're putting the finishing touches on the new Verapeak Digital. Data-driven
+        marketing that moves your numbers — launching shortly.
+      </p>
+
+      <a class="cta" href="mailto:hello@verapeakdigital.com?subject=Verapeak%20Digital%20enquiry">
+        Get in touch →
+      </a>
+
+      <p class="meta">
+        Questions? <a href="mailto:hello@verapeakdigital.com">hello@verapeakdigital.com</a>
+      </p>
+    </main>
+  </body>
+</html>
