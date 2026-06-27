@@ -1,0 +1,9 @@
+<svg width="470" height="175" viewBox="0 0 470 175" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(30,30)">
+    <rect x="24" y="66" width="18" height="34" rx="4" fill="#0F766E"/>
+    <rect x="50" y="48" width="18" height="52" rx="4" fill="#0F766E"/>
+    <rect x="76" y="28" width="18" height="72" rx="4" fill="#5EEAD4"/>
+  </g>
+  <text x="180" y="98" font-family="'Helvetica Neue',Arial,sans-serif" font-size="48" font-weight="700" fill="#0F2A2E">Vera<tspan fill="#0F766E">peak</tspan></text>
+  <text x="182" y="128" font-family="'Helvetica Neue',Arial,sans-serif" font-size="19" font-weight="600" letter-spacing="6" fill="#0F766E">DIGITAL</text>
+</svg>
