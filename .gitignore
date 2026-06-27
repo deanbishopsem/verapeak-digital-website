@@ -35,3 +35,6 @@ Thumbs.db
 .yarn/*
 !.yarn/patches
 !.yarn/releases
+
+# Claude Code local settings (personal)
+.claude/settings.local.json
