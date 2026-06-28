@@ -33,7 +33,7 @@ const budgets = ['Under $2k / mo', '$2k to $5k / mo', '$5k to $10k / mo', '$10k+
         <input type="hidden" name="_subject" value="New proposal request from verapeakdigital.com" />
         <input type="hidden" name="_template" value="table" />
         <input type="hidden" name="_captcha" value="false" />
-        <input type="hidden" name="_next" value="https://verapeakdigital.com/contact?sent=1" />
+        <input type="hidden" name="_next" value="https://verapeakdigital.com/thank-you" />
         <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;" />
         <div class="field-row">
           <div class="field">
@@ -196,8 +196,9 @@ const budgets = ['Under $2k / mo', '$2k to $5k / mo', '$5k to $10k / mo', '$10k+
         body: new FormData(form),
       });
       if (res.ok) {
-        if (note) note.hidden = false;
-        form.reset();
+        // Redirect to the confirmation page so it can be tracked as a conversion.
+        window.location.href = '/thank-you';
+        return;
       } else if (errorNote) {
         errorNote.hidden = false;
       }

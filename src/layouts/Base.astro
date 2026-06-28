@@ -8,6 +8,7 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  noindex?: boolean;
 }
 
 const SITE = 'https://verapeakdigital.com';
@@ -15,6 +16,7 @@ const {
   title = 'Knoxville Digital Marketing Agency for Small Business | Verapeak',
   description = 'Verapeak Digital is a Knoxville-based digital marketing agency serving small businesses nationwide. Transparent, full-funnel SEO, paid media, and web design, so you see exactly where every dollar goes.',
   image = '/assets/og-image.jpg',
+  noindex = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE).href;
@@ -84,7 +86,7 @@ const schema = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />

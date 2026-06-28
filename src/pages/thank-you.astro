@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import ComingSoon from '../components/ComingSoon.astro';
+import { COMING_SOON } from '../config';
+---
+
+{COMING_SOON ? <ComingSoon /> : (
+<Base
+  title="Thank you | Verapeak Digital"
+  description="Thanks for reaching out to Verapeak Digital. We reply within one business day."
+  noindex={true}
+>
+  <section class="ty">
+    <div class="container">
+      <div class="ty-card" data-reveal>
+        <div class="ty-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="34" height="34">
+            <path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <span class="eyebrow">Message received</span>
+        <h1>Thanks, we've got it.</h1>
+        <p class="lead">
+          Your message is on its way to our team. We reply within one business day with
+          honest, actionable next steps, no pressure and no jargon.
+        </p>
+        <div class="ty-actions">
+          <a href="/" class="btn btn-primary btn-lg">Back to home</a>
+          <a href="/blog" class="btn btn-ghost btn-lg">Read the blog</a>
+        </div>
+        <p class="ty-meta">
+          Need us sooner? Email <a href="mailto:deanbishopsem@gmail.com">deanbishopsem@gmail.com</a>
+          or call <a href="tel:+18287675641">(828) 767-5641</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+)}
+
+<!-- Google Ads / GA4 conversion signal: fires when this page loads after a submit -->
+<script is:inline>
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'generate_lead', {
+      event_category: 'contact',
+      event_label: 'contact form',
+    });
+  }
+</script>
+
+<style>
+  .ty { padding-block: clamp(64px, 12vw, 140px); }
+  .ty-card { max-width: 640px; margin: 0 auto; text-align: center; }
+  .ty-icon {
+    width: 72px; height: 72px; margin: 0 auto 24px; display: grid; place-items: center;
+    border-radius: 50%; color: #fff; background: linear-gradient(135deg, var(--teal), var(--mint));
+    box-shadow: 0 16px 40px -16px rgba(15, 118, 110, 0.6);
+  }
+  .ty .eyebrow { justify-content: center; }
+  .ty h1 { margin: 8px 0 18px; }
+  .ty .lead { margin: 0 auto; max-width: 52ch; }
+  .ty-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 32px; }
+  .ty-meta { margin-top: 28px; font-size: 0.92rem; color: var(--text-muted); }
+</style>
