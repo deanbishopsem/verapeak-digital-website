@@ -398,6 +398,10 @@ const faqSchema = {
   @media (prefers-reduced-motion: reduce) {
     .hero { height: 100svh; }
   }
+  /* Mobile: video plays as a loop, so the hero is a single screen (no scrub space) */
+  @media (max-width: 820px) {
+    .hero { height: 100svh; margin-top: -61px; }
+  }
 
   /* LOGO WALL */
   .logos { padding-block: 40px; border-block: 1px solid var(--border); background: var(--bg-soft); }
@@ -615,53 +619,72 @@ const faqSchema = {
 
   if (hero && video) {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let duration = 0;
-    let current = 0;
-    let active = false;
-    let raf = 0;
+    const isMobile =
+      window.matchMedia('(max-width: 820px)').matches ||
+      !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-    const onMeta = () => {
-      duration = video.duration && isFinite(video.duration) ? video.duration : 8;
-      video.pause();
-      try { video.currentTime = 0.0001; } catch (e) {}
-    };
-    if (video.readyState >= 1) onMeta();
-    else video.addEventListener('loadedmetadata', onMeta, { once: true });
-
-    const progress = () => {
-      // Track from the first pixel of scroll so the animation starts right away
-      // (instead of waiting for the sticky hero to pin past the header offset).
-      const total = hero.offsetHeight - window.innerHeight;
-      const scrolled = Math.min(Math.max(window.scrollY, 0), total);
-      return total > 0 ? scrolled / total : 0;
-    };
-
-    const tick = () => {
-      const target = progress() * (duration || 8);
-      current += (target - current) * 0.15;
-      if (Math.abs(target - current) < 0.004) current = target;
-      if (duration && isFinite(current)) {
-        try { video.currentTime = current; } catch (e) {}
+    if (isMobile) {
+      // Touch devices can't reliably scrub a paused video (you just see a frozen
+      // frame), so play it as a muted, looping background instead.
+      if (!reduce) {
+        video.muted = true;
+        video.loop = true;
+        video.setAttribute('playsinline', '');
+        video.setAttribute('autoplay', '');
+        const playIt = () => { video.play().catch(() => {}); };
+        if (video.readyState >= 2) playIt();
+        else video.addEventListener('loadeddata', playIt, { once: true });
+        // fallback: kick it off on first interaction if autoplay is blocked
+        document.addEventListener('touchstart', playIt, { once: true, passive: true });
       }
-      if (active) raf = requestAnimationFrame(tick);
-    };
+    } else {
+      // Desktop: scroll position scrubs the video, smoothed with a lerp.
+      let duration = 0;
+      let current = 0;
+      let active = false;
+      let raf = 0;
 
-    if (!reduce) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting && !active) {
-              active = true;
-              raf = requestAnimationFrame(tick);
-            } else if (!e.isIntersecting && active) {
-              active = false;
-              cancelAnimationFrame(raf);
-            }
-          });
-        },
-        { threshold: 0 }
-      );
-      io.observe(hero);
+      const onMeta = () => {
+        duration = video.duration && isFinite(video.duration) ? video.duration : 8;
+        video.pause();
+        try { video.currentTime = 0.0001; } catch (e) {}
+      };
+      if (video.readyState >= 1) onMeta();
+      else video.addEventListener('loadedmetadata', onMeta, { once: true });
+
+      const progress = () => {
+        const total = hero.offsetHeight - window.innerHeight;
+        const scrolled = Math.min(Math.max(window.scrollY, 0), total);
+        return total > 0 ? scrolled / total : 0;
+      };
+
+      const tick = () => {
+        const target = progress() * (duration || 8);
+        current += (target - current) * 0.15;
+        if (Math.abs(target - current) < 0.004) current = target;
+        if (duration && isFinite(current)) {
+          try { video.currentTime = current; } catch (e) {}
+        }
+        if (active) raf = requestAnimationFrame(tick);
+      };
+
+      if (!reduce) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting && !active) {
+                active = true;
+                raf = requestAnimationFrame(tick);
+              } else if (!e.isIntersecting && active) {
+                active = false;
+                cancelAnimationFrame(raf);
+              }
+            });
+          },
+          { threshold: 0 }
+        );
+        io.observe(hero);
+      }
     }
   }
 

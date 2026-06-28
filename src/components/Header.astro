@@ -103,6 +103,20 @@ const links = [
   .site-header.over-hero .header-cta:hover { background: rgba(255, 255, 255, 0.2); }
   .site-header.over-hero .menu-toggle { border-color: rgba(255, 255, 255, 0.4); }
   .site-header.over-hero .menu-toggle span { background: #fff; }
+
+  /* Mobile menu open: force a solid, readable header even over the dark hero */
+  .site-header.nav-open {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: saturate(180%) blur(16px);
+    border-color: var(--border);
+  }
+  .site-header.nav-open .logo-dark { opacity: 1; }
+  .site-header.nav-open .logo-light { opacity: 0; }
+  .site-header.nav-open .nav-link { color: var(--text); }
+  .site-header.nav-open .nav-link.active { color: var(--teal); }
+  .site-header.nav-open .menu-toggle { border-color: var(--border-strong); }
+  .site-header.nav-open .menu-toggle span { background: var(--ink); }
+
   .nav { display: none; gap: 6px; margin-left: auto; }
   .nav-link {
     color: var(--text);
@@ -182,6 +196,7 @@ const links = [
   const mobileNav = document.querySelector('.mobile-nav');
   toggle?.addEventListener('click', () => {
     const open = mobileNav?.classList.toggle('open');
+    header?.classList.toggle('nav-open', !!open);
     toggle.setAttribute('aria-expanded', String(!!open));
   });
 
