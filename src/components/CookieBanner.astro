@@ -13,6 +13,8 @@
 </div>
 
 <style>
+  /* display:flex below would otherwise override the [hidden] attribute */
+  .cookie-banner[hidden] { display: none; }
   .cookie-banner {
     position: fixed;
     left: 18px;
