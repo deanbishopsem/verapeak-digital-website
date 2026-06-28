@@ -555,14 +555,6 @@ const faqSchema = {
   @keyframes gpPop { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
   @keyframes gpRing { 0% { opacity: 0.6; transform: scale(0.6); } 100% { opacity: 0; transform: scale(2.4); } }
 
-  @media (prefers-reduced-motion: reduce) {
-    .gp-bar { transform: scaleY(1); }
-    .gp-area { opacity: 1; }
-    .gp-line { stroke-dashoffset: 0; }
-    .gp-dot { opacity: 1; }
-    .gp-ring { display: none; }
-  }
-
   @media (min-width: 880px) {
     .gp-grid { grid-template-columns: 1fr 1fr; gap: 64px; }
   }
@@ -625,18 +617,17 @@ const faqSchema = {
 
     if (isMobile) {
       // Touch devices can't reliably scrub a paused video (you just see a frozen
-      // frame), so play it as a muted, looping background instead.
-      if (!reduce) {
-        video.muted = true;
-        video.loop = true;
-        video.setAttribute('playsinline', '');
-        video.setAttribute('autoplay', '');
-        const playIt = () => { video.play().catch(() => {}); };
-        if (video.readyState >= 2) playIt();
-        else video.addEventListener('loadeddata', playIt, { once: true });
-        // fallback: kick it off on first interaction if autoplay is blocked
-        document.addEventListener('touchstart', playIt, { once: true, passive: true });
-      }
+      // frame), so play it as a muted, looping background instead. The hero is the
+      // brand centerpiece, so it plays regardless of the reduce-motion preference.
+      video.muted = true;
+      video.loop = true;
+      video.setAttribute('playsinline', '');
+      video.setAttribute('autoplay', '');
+      const playIt = () => { video.play().catch(() => {}); };
+      if (video.readyState >= 2) playIt();
+      else video.addEventListener('loadeddata', playIt, { once: true });
+      // fallback: kick it off on first interaction if autoplay is blocked
+      document.addEventListener('touchstart', playIt, { once: true, passive: true });
     } else {
       // Desktop: scroll position scrubs the video, smoothed with a lerp.
       let duration = 0;

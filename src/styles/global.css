@@ -182,6 +182,7 @@ img { max-width: 100%; display: block; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  /* Reveal content immediately, but keep the brand animations (hero, charts)
+     playing — they are core to the design, not incidental motion. */
   [data-reveal] { opacity: 1; transform: none; transition: none; }
-  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
 }
