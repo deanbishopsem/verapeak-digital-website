@@ -1,5 +1,684 @@
 ---
+import Base from '../layouts/Base.astro';
 import ComingSoon from '../components/ComingSoon.astro';
+import { COMING_SOON } from '../config';
+
+
+// Real platform marks (Simple Icons) — the channels we actually run, logos only.
+const platforms = [
+  { slug: 'googleads', name: 'Google Ads' },
+  { slug: 'meta', name: 'Meta' },
+  { slug: 'googleanalytics', name: 'Google Analytics' },
+  { slug: 'hubspot', name: 'HubSpot' },
+  { slug: 'shopify', name: 'Shopify' },
+  { slug: 'linkedin', name: 'LinkedIn', src: '/assets/linkedin.svg' },
+];
+
+const services = [
+  {
+    title: 'Search Engine Optimization',
+    desc: 'Technical SEO, content, and authority building that compounds into durable organic growth.',
+    metric: 'Organic',
+  },
+  {
+    title: 'Paid Media & PPC',
+    desc: 'High-intent campaigns across search and social, engineered for return on every dollar.',
+    metric: 'Acquisition',
+  },
+  {
+    title: 'Web Design & CRO',
+    desc: 'Fast, conversion-first sites and landing pages that turn traffic into booked revenue.',
+    metric: 'Conversion',
+  },
+  {
+    title: 'Analytics & Attribution',
+    desc: 'Clean tracking and clear dashboards so every decision is backed by real numbers.',
+    metric: 'Measurement',
+  },
+];
+
+const capabilities = [
+  'SEO', 'Paid Search', 'Paid Social', 'Landing Pages', 'Conversion Rate Optimization',
+  'Marketing Analytics', 'Lifecycle Email', 'Brand Strategy', 'Content', 'Attribution Modeling',
+];
+
+const steps = [
+  { n: '01', verb: 'Audit', desc: 'We map your funnel, market, and competitors to find the real growth levers.' },
+  { n: '02', verb: 'Plan', desc: 'A prioritized roadmap with timelines and the KPIs you can hold us to.' },
+  { n: '03', verb: 'Build', desc: 'Our specialists launch and optimize across every channel that matters.' },
+  { n: '04', verb: 'Scale', desc: 'We double down on what works and reinvest in your next peak of growth.' },
+];
+
+const faqs = [
+  {
+    q: 'Do you work with small businesses?',
+    a: "Small businesses are exactly who we're built for, especially owners who have been burned by an agency that overpromised and never showed where the budget actually went. You get senior people on your account, plain-English reporting, and a live dashboard from day one.",
+  },
+  {
+    q: 'How do I know where my ad spend is actually going?',
+    a: 'Every client gets a live dashboard that ties spend to conversions and revenue for each channel. No black boxes and no vanity metrics. If a channel is not paying off, we tell you and fix it.',
+  },
+  {
+    q: 'Are you a Knoxville agency, or do you work nationwide?',
+    a: 'Both. Verapeak Digital is based in Knoxville, Tennessee, and we work with small businesses across the United States. Everything runs remotely with the same live reporting wherever you are.',
+  },
+  {
+    q: 'Do you have experience marketing behavioral health practices?',
+    a: 'Yes. Our founder spent six years marketing for behavioral health, so we understand the compliance, sensitivity, and intake-driven funnels that space requires, from therapy practices to treatment centers.',
+  },
+  {
+    q: 'How quickly will I see results?',
+    a: 'Paid media can move within a few weeks, while SEO compounds over a few months. Either way you get a clear plan up front and measurable progress in your dashboard, not vague monthly updates.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
-<ComingSoon />
+{COMING_SOON ? <ComingSoon /> : (
+<Base>
+  <!-- Hero: full-bleed scroll-scrubbed data-range video -->
+  <section class="hero" id="hero" data-hero-dark>
+    <div class="hero-sticky">
+      <video
+        class="hero-video"
+        id="hero-video"
+        src="/assets/hero/data-range-scrub-2k.mp4"
+        poster="/assets/hero/data-range-poster.webp"
+        muted
+        playsinline
+        preload="auto"
+        aria-hidden="true"
+      ></video>
+      <div class="hero-scrim"></div>
+
+      <div class="container hero-content">
+        <div class="hero-copy">
+          <span class="eyebrow hero-eyebrow">Digital marketing agency · Knoxville &amp; nationwide</span>
+          <h1>Reach the <span class="text-grad">peak</span><br />of your market.</h1>
+          <p class="lead hero-lead">
+            Verapeak Digital helps small businesses finally get marketing that works.
+            Full-funnel SEO, paid media, and web design, plus a live dashboard that
+            shows you exactly where every dollar goes.
+          </p>
+          <div class="hero-actions">
+            <a href="/contact" class="btn hero-btn-primary btn-lg">Get a proposal</a>
+            <a href="/services" class="btn hero-btn-ghost btn-lg">See what we do</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platform logo wall (under hero, logos only) -->
+  <section class="logos">
+    <div class="container">
+      <p class="logos-head">The channels we run, every day</p>
+      <div class="logos-row">
+        {platforms.map((p) => (
+          <img
+            src={p.src ?? `https://cdn.simpleicons.org/${p.slug}/0F2A2E`}
+            alt={p.name} title={p.name} width="112" height="40" loading="lazy"
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Positioning statement -->
+  <section class="section position-band">
+    <div class="container">
+      <p class="pos-statement" data-reveal>
+        We're not here to run campaigns.<br />We're here to <span class="text-grad">grow your business</span>.
+      </p>
+      <p class="pos-sub" data-reveal style="--reveal-delay: 100ms;">
+        Every channel, every test, and every dollar ladders up to one goal: more revenue, profitably.
+      </p>
+    </div>
+  </section>
+
+  <!-- Services: asymmetric grid, varied cells -->
+  <section class="section services">
+    <div class="container">
+      <div class="services-top">
+        <div class="services-intro" data-reveal>
+          <span class="eyebrow">What we do</span>
+          <h2>Full-funnel marketing,<br />one accountable team.</h2>
+          <p class="lead">
+            No silos and no hand-offs. One senior team plans, builds, and optimizes
+            across every channel, owning your growth from first click to closed revenue.
+          </p>
+          <ul class="svc-feature-list">
+            <li>Live cross-channel reporting and real attribution</li>
+            <li>Weekly optimization, not set-and-forget</li>
+            <li>Plain-English insights, no jargon</li>
+          </ul>
+          <a href="/services" class="svc-link svc-intro-link">Explore all services <span aria-hidden="true">&rarr;</span></a>
+        </div>
+
+        <figure class="services-film" data-reveal style="--reveal-delay: 120ms;">
+          <div class="svc-feature-media">
+            <video
+              id="wwd-film"
+              class="svc-feature-video"
+              src="/assets/wwd/commercial-film.mp4"
+              poster="/assets/wwd/commercial-film-poster.webp"
+              playsinline preload="none"
+              aria-label="Verapeak Digital: what we do, a 20 second film"
+            ></video>
+            <button class="wwd-play" type="button" aria-label="Play the what-we-do film">
+              <span class="wwd-play-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+              </span>
+              <span class="wwd-play-label">Watch the 20s overview</span>
+            </button>
+          </div>
+          <figcaption>One dashboard. Every channel. Real attribution.</figcaption>
+        </figure>
+      </div>
+
+      <div class="service-grid">
+        {services.map((s, i) => (
+          <article class="svc" data-reveal style={`--reveal-delay:${i * 60}ms`}>
+            <span class="svc-tag">{s.metric}</span>
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+            <a href="/services" class="svc-link">Explore <span aria-hidden="true">&rarr;</span></a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities marquee (single marquee on the page) -->
+  <section class="marquee-wrap" aria-label="Capabilities">
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        {[...capabilities, ...capabilities].map((c) => (
+          <span class="chip">{c}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section process">
+    <div class="container">
+      <div class="proc-grid">
+        <div class="proc-intro" data-reveal>
+          <h2>A proven path to the peak.</h2>
+          <p class="lead">Four steps, repeated every quarter, so growth keeps compounding.</p>
+          <a href="/contact" class="btn btn-ghost">Start the conversation</a>
+        </div>
+        <div class="proc-steps">
+          {steps.map((step, i) => (
+            <div class="step" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+              <span class="step-n">{step.n}</span>
+              <div>
+                <h3>{step.verb}</h3>
+                <p>{step.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promise + growth animation -->
+  <section class="section growth-promise">
+    <div class="container gp-grid">
+      <div class="gp-copy" data-reveal>
+        <span class="eyebrow">Our promise</span>
+        <h2>Built to move the one number that matters: yours.</h2>
+        <p class="lead">
+          No vanity metrics and no black boxes. You get a clear plan, live reporting,
+          and a team that treats your budget like its own.
+        </p>
+        <ul class="gp-points">
+          <li>Live dashboards and plain-English reporting</li>
+          <li>Senior specialists on every account</li>
+          <li>We keep optimizing until the numbers move</li>
+        </ul>
+        <a href="/contact" class="btn btn-primary">Get a proposal</a>
+      </div>
+
+      <div class="gp-chart" data-reveal style="--reveal-delay: 120ms;">
+        <div class="gp-card">
+          <div class="gp-card-head">
+            <span class="gp-card-label">Where we take you</span>
+            <span class="gp-card-chip">up and to the right</span>
+          </div>
+          <svg class="gp-svg" viewBox="0 0 460 300" role="img" aria-label="Illustration of a growth trajectory">
+            <defs>
+              <linearGradient id="gpArea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2DD4BF" stop-opacity="0.35" />
+                <stop offset="100%" stop-color="#2DD4BF" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+
+            <!-- gridlines -->
+            <g class="gp-grid-lines">
+              <line x1="24" y1="80" x2="440" y2="80" />
+              <line x1="24" y1="140" x2="440" y2="140" />
+              <line x1="24" y1="200" x2="440" y2="200" />
+            </g>
+
+            <!-- growing bars -->
+            <g>
+              <rect class="gp-bar" style="--d:60ms"  x="30"  y="205" width="36" height="55"  rx="5" />
+              <rect class="gp-bar" style="--d:140ms" x="90"  y="180" width="36" height="80"  rx="5" />
+              <rect class="gp-bar" style="--d:220ms" x="150" y="165" width="36" height="95"  rx="5" />
+              <rect class="gp-bar" style="--d:300ms" x="210" y="130" width="36" height="130" rx="5" />
+              <rect class="gp-bar" style="--d:380ms" x="270" y="110" width="36" height="150" rx="5" />
+              <rect class="gp-bar" style="--d:460ms" x="330" y="75"  width="36" height="185" rx="5" />
+              <rect class="gp-bar" style="--d:540ms" x="390" y="45"  width="36" height="215" rx="5" />
+            </g>
+
+            <!-- area + drawing line over the bar tops -->
+            <path class="gp-area" d="M48 205 L108 180 L168 165 L228 130 L288 110 L348 75 L408 45 L408 260 L48 260 Z" fill="url(#gpArea)" />
+            <path class="gp-line" pathLength="1" d="M48 205 L108 180 L168 165 L228 130 L288 110 L348 75 L408 45" />
+
+            <!-- pulsing endpoint -->
+            <circle class="gp-ring" cx="408" cy="45" r="9" />
+            <circle class="gp-dot"  cx="408" cy="45" r="6" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ (long-tail, schema-backed) -->
+  <section class="section faq">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <h2>Questions small businesses ask us</h2>
+      </div>
+      <div class="faq-list">
+        {faqs.map((f, i) => (
+          <details class="faq-item" data-reveal style={`--reveal-delay:${i * 40}ms`}>
+            <summary>
+              <span>{f.q}</span>
+              <span class="faq-mark" aria-hidden="true"></span>
+            </summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-banner" data-reveal>
+        <h2>Ready to climb?</h2>
+        <p>Get a free growth audit and a clear plan to hit your next peak. No pressure, no jargon.</p>
+        <a href="/contact" class="btn btn-primary btn-lg">Get a proposal</a>
+      </div>
+    </div>
+  </section>
+</Base>
+)}
+
+<style>
+  /* HERO — full-bleed, scroll-scrubbed video */
+  .hero {
+    position: relative;
+    height: 200vh;              /* extra height gives the scroll-scrub room */
+    margin-top: -61px;          /* pull under the fixed-height header so it pins from pixel 0 */
+    background: var(--ink);
+  }
+  .hero-sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 560px;
+    overflow: hidden;
+    display: grid;
+    align-items: center;
+  }
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    background: var(--ink);
+  }
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(90deg, rgba(8, 24, 23, 0.92) 0%, rgba(8, 24, 23, 0.55) 42%, rgba(8, 24, 23, 0.12) 78%),
+      linear-gradient(0deg, rgba(8, 24, 23, 0.75) 0%, transparent 38%);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+  .hero-copy { max-width: 720px; will-change: transform, opacity; }
+  .hero-content h1 { color: #fff; margin: 12px 0 22px; }
+  .hero-lead { max-width: 44ch; }
+  .hero-content .text-grad {
+    background: linear-gradient(110deg, var(--mint-light), var(--mint));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-eyebrow { color: var(--mint-light); }
+  .hero-eyebrow::before { background: var(--mint-light); }
+  .hero-lead { color: #c8ddda; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+  .hero-btn-primary {
+    background: var(--mint);
+    color: var(--ink);
+    box-shadow: 0 14px 34px -12px rgba(45, 212, 191, 0.6);
+  }
+  .hero-btn-primary:hover { background: var(--mint-light); color: var(--ink); transform: translateY(-2px); }
+  .hero-btn-ghost {
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.32);
+  }
+  .hero-btn-ghost:hover { border-color: #fff; color: #fff; background: rgba(255, 255, 255, 0.12); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero { height: 100svh; }
+  }
+
+  /* LOGO WALL */
+  .logos { padding-block: 40px; border-block: 1px solid var(--border); background: var(--bg-soft); }
+  .logos-head { text-align: center; font-size: 0.86rem; color: var(--text-faint); margin-bottom: 26px; }
+  .logos-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 40px 56px; }
+  .logos-row img { height: 26px; width: auto; opacity: 0.55; transition: opacity 0.25s var(--ease); filter: saturate(0.2); }
+  .logos-row img:hover { opacity: 0.9; filter: none; }
+
+  /* POSITIONING STATEMENT */
+  .position-band { text-align: center; }
+  .pos-statement {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    max-width: 18ch;
+    margin: 0 auto;
+  }
+  .pos-sub {
+    margin: 22px auto 0;
+    max-width: 52ch;
+    font-size: clamp(1.02rem, 1.5vw, 1.18rem);
+    color: var(--text-muted);
+  }
+
+  /* SERVICES */
+  .services { background: var(--bg-soft); }
+  .section-head h2 { line-height: 1.02; }
+  .services-top { display: grid; gap: 36px; align-items: center; margin-bottom: 60px; }
+  .services-intro h2 { line-height: 1.02; margin: 12px 0 18px; }
+  .services-intro .svc-feature-list { margin: 22px 0; }
+  .svc-intro-link { display: inline-block; margin-top: 4px; }
+  .services-film { margin: 0; }
+  .services-film figcaption {
+    margin-top: 16px; text-align: center; font-family: var(--font-display);
+    font-weight: 600; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--ink);
+  }
+  @media (min-width: 940px) {
+    .services-top { grid-template-columns: 0.9fr 1.1fr; gap: 60px; }
+  }
+  .service-grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+  .svc {
+    background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 30px; display: flex; flex-direction: column; gap: 10px;
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .svc:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--border-strong); }
+  .svc-tag {
+    align-self: flex-start; font-size: 0.74rem; font-weight: 600; color: var(--teal);
+    background: var(--bg-tint); padding: 5px 11px; border-radius: var(--radius-pill);
+  }
+  .svc h3 { margin-top: 4px; }
+  .svc-link { font-weight: 600; font-size: 0.95rem; margin-top: auto; padding-top: 8px; }
+  .svc-feature-media {
+    position: relative; overflow: hidden; aspect-ratio: 16 / 9; background: var(--ink);
+    border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg);
+  }
+  .svc-feature-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* Show the full 16:9 frame (no side cropping) in fullscreen */
+  #wwd-film:fullscreen { object-fit: contain; background: #05100e; }
+  #wwd-film:-webkit-full-screen { object-fit: contain; background: #05100e; }
+  .wwd-play {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    background: linear-gradient(180deg, rgba(8,24,23,0.15), rgba(8,24,23,0.45));
+    border: none; cursor: pointer; color: #fff; font-family: var(--font-body);
+    transition: background 0.25s var(--ease);
+  }
+  .wwd-play:hover { background: linear-gradient(180deg, rgba(8,24,23,0.1), rgba(8,24,23,0.35)); }
+  .wwd-play-icon {
+    width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--mint); color: var(--ink); padding-left: 3px;
+    box-shadow: 0 12px 30px rgba(45,212,191,0.45); transition: transform 0.2s var(--ease);
+  }
+  .wwd-play:hover .wwd-play-icon { transform: scale(1.08); }
+  .wwd-play-label { font-weight: 600; font-size: 0.95rem; letter-spacing: 0.01em; text-shadow: 0 1px 8px rgba(0,0,0,0.4); }
+  .wwd-play.is-hidden { display: none; }
+  .svc-feature-list { list-style: none; display: grid; gap: 9px; margin-top: 18px; }
+  .svc-feature-list li { position: relative; padding-left: 26px; font-size: 0.95rem; color: var(--text); }
+  .svc-feature-list li::before {
+    content: ''; position: absolute; left: 0; top: 7px; width: 11px; height: 6px;
+    border-left: 2.5px solid var(--teal); border-bottom: 2.5px solid var(--teal); transform: rotate(-45deg);
+  }
+
+  /* MARQUEE */
+  .marquee-wrap { background: var(--ink); padding-block: 26px; overflow: hidden; }
+  .marquee { display: flex; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .marquee-track { display: flex; gap: 16px; padding-right: 16px; white-space: nowrap; animation: scroll-x 38s linear infinite; }
+  .chip {
+    font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; color: #cfeae6;
+    border: 1px solid rgba(94, 234, 212, 0.22); border-radius: var(--radius-pill);
+    padding: 9px 20px;
+  }
+  @keyframes scroll-x { to { transform: translateX(-50%); } }
+
+  /* PROCESS */
+  .proc-grid { display: grid; gap: 44px; align-items: start; }
+  .proc-intro h2 { margin-bottom: 16px; }
+  .proc-intro .btn { margin-top: 26px; }
+  .proc-steps { display: grid; gap: 4px; }
+  .step { display: grid; grid-template-columns: auto 1fr; gap: 20px; padding: 22px 0; border-top: 1px solid var(--border); }
+  .step:first-child { border-top: none; }
+  .step-n { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--mint); padding-top: 3px; }
+  .step h3 { margin-bottom: 6px; }
+
+  /* GROWTH PROMISE */
+  .gp-grid { display: grid; gap: 48px; align-items: center; }
+  .gp-copy h2 { margin: 10px 0 18px; }
+  .gp-points { list-style: none; display: grid; gap: 12px; margin: 26px 0 30px; }
+  .gp-points li { position: relative; padding-left: 30px; color: var(--text); }
+  .gp-points li::before {
+    content: ''; position: absolute; left: 0; top: 8px; width: 11px; height: 6px;
+    border-left: 2.5px solid var(--teal); border-bottom: 2.5px solid var(--teal);
+    transform: rotate(-45deg);
+  }
+
+  .gp-card {
+    background:
+      radial-gradient(110% 120% at 85% -10%, rgba(45, 212, 191, 0.18) 0%, transparent 55%),
+      linear-gradient(160deg, var(--ink) 0%, var(--teal-dark) 135%);
+    border-radius: var(--radius-lg);
+    padding: 26px 26px 18px;
+    box-shadow: var(--shadow-lg);
+  }
+  .gp-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .gp-card-label { color: #fff; font-weight: 600; font-size: 0.98rem; }
+  .gp-card-chip {
+    font-size: 0.74rem; font-weight: 600; color: var(--ink);
+    background: var(--mint); padding: 4px 10px; border-radius: var(--radius-pill);
+  }
+  .gp-svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .gp-grid-lines line { stroke: rgba(255, 255, 255, 0.08); stroke-width: 1; }
+  .gp-bar { fill: rgba(94, 234, 212, 0.16); transform: scaleY(0); transform-box: fill-box; transform-origin: bottom; }
+  .gp-area { opacity: 0; }
+  .gp-line { fill: none; stroke: #5EEAD4; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .gp-dot { fill: #5EEAD4; opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .gp-ring { fill: none; stroke: #5EEAD4; stroke-width: 2; opacity: 0; transform-box: fill-box; transform-origin: center; }
+
+  /* trigger via the shared scroll-reveal observer (.is-in on [data-reveal]) */
+  .gp-chart.is-in .gp-bar { animation: gpGrow 0.85s var(--ease) forwards; animation-delay: var(--d, 0ms); }
+  .gp-chart.is-in .gp-area { animation: gpFade 1s ease 0.6s forwards; }
+  .gp-chart.is-in .gp-line { animation: gpDraw 1.3s var(--ease) 0.5s forwards; }
+  .gp-chart.is-in .gp-dot { animation: gpPop 0.4s ease 1.7s forwards; }
+  .gp-chart.is-in .gp-ring { animation: gpRing 2.4s ease-out 2s infinite; }
+
+  @keyframes gpGrow { to { transform: scaleY(1); } }
+  @keyframes gpFade { to { opacity: 1; } }
+  @keyframes gpDraw { to { stroke-dashoffset: 0; } }
+  @keyframes gpPop { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
+  @keyframes gpRing { 0% { opacity: 0.6; transform: scale(0.6); } 100% { opacity: 0; transform: scale(2.4); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gp-bar { transform: scaleY(1); }
+    .gp-area { opacity: 1; }
+    .gp-line { stroke-dashoffset: 0; }
+    .gp-dot { opacity: 1; }
+    .gp-ring { display: none; }
+  }
+
+  @media (min-width: 880px) {
+    .gp-grid { grid-template-columns: 1fr 1fr; gap: 64px; }
+  }
+
+  /* FAQ */
+  .faq { background: var(--bg-soft); }
+  .faq-list { max-width: 820px; margin: 0 auto; display: grid; gap: 14px; }
+  .faq-item {
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 2px 24px;
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+  .faq-item[open] { border-color: var(--border-strong); box-shadow: var(--shadow-sm); }
+  .faq-item summary {
+    cursor: pointer; list-style: none; display: flex; align-items: center;
+    justify-content: space-between; gap: 18px; padding: 20px 0;
+    font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-mark { position: relative; width: 16px; height: 16px; flex: none; }
+  .faq-mark::before, .faq-mark::after { content: ''; position: absolute; background: var(--teal); border-radius: 2px; }
+  .faq-mark::before { top: 7px; left: 0; width: 16px; height: 2px; }
+  .faq-mark::after { top: 0; left: 7px; width: 2px; height: 16px; transition: transform 0.2s var(--ease); }
+  .faq-item[open] .faq-mark::after { transform: scaleY(0); }
+  .faq-item p { margin: 0; padding: 0 0 22px; max-width: 70ch; color: var(--text-muted); }
+
+  /* CTA */
+  .cta-section { padding-top: 0; }
+  .cta-banner {
+    background:
+      radial-gradient(120% 140% at 85% -20%, rgba(45, 212, 191, 0.25) 0%, transparent 55%),
+      linear-gradient(120deg, var(--ink) 0%, var(--teal-dark) 130%);
+    border-radius: 28px; padding: clamp(48px, 7vw, 88px); text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
+  .cta-banner h2 { color: #fff; }
+  .cta-banner p { color: #bfe0dc; margin: 16px auto 30px; max-width: 48ch; }
+
+  /* RESPONSIVE */
+  @media (min-width: 760px) {
+    .service-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 980px) {
+    .proc-grid { grid-template-columns: 0.85fr 1.15fr; gap: 72px; }
+    .proc-intro { position: sticky; top: 100px; }
+  }
+</style>
+
+<script>
+  // Scroll-scrubbed hero video: scroll position through the tall .hero section
+  // drives video.currentTime. Smoothed with a lerp so seeks stay fluid.
+  const hero = document.getElementById('hero');
+  const video = document.getElementById('hero-video') as HTMLVideoElement | null;
+
+  if (hero && video) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let duration = 0;
+    let current = 0;
+    let active = false;
+    let raf = 0;
+
+    const onMeta = () => {
+      duration = video.duration && isFinite(video.duration) ? video.duration : 8;
+      video.pause();
+      try { video.currentTime = 0.0001; } catch (e) {}
+    };
+    if (video.readyState >= 1) onMeta();
+    else video.addEventListener('loadedmetadata', onMeta, { once: true });
+
+    const progress = () => {
+      // Track from the first pixel of scroll so the animation starts right away
+      // (instead of waiting for the sticky hero to pin past the header offset).
+      const total = hero.offsetHeight - window.innerHeight;
+      const scrolled = Math.min(Math.max(window.scrollY, 0), total);
+      return total > 0 ? scrolled / total : 0;
+    };
+
+    const tick = () => {
+      const target = progress() * (duration || 8);
+      current += (target - current) * 0.15;
+      if (Math.abs(target - current) < 0.004) current = target;
+      if (duration && isFinite(current)) {
+        try { video.currentTime = current; } catch (e) {}
+      }
+      if (active) raf = requestAnimationFrame(tick);
+    };
+
+    if (!reduce) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting && !active) {
+              active = true;
+              raf = requestAnimationFrame(tick);
+            } else if (!e.isIntersecting && active) {
+              active = false;
+              cancelAnimationFrame(raf);
+            }
+          });
+        },
+        { threshold: 0 }
+      );
+      io.observe(hero);
+    }
+  }
+
+  // Click-to-play the "what we do" commercial film (sound on, native controls).
+  const wwdFilm = document.getElementById('wwd-film') as HTMLVideoElement | null;
+  const wwdPlay = document.querySelector('.wwd-play') as HTMLButtonElement | null;
+  if (wwdFilm && wwdPlay) {
+    wwdPlay.addEventListener('click', () => {
+      wwdFilm.controls = true;
+      wwdFilm.muted = false;
+      wwdPlay.classList.add('is-hidden');
+      wwdFilm.play();
+    });
+    wwdFilm.addEventListener('ended', () => {
+      wwdFilm.controls = false;
+      wwdFilm.currentTime = 0;
+      wwdPlay.classList.remove('is-hidden');
+    });
+  }
+</script>

@@ -1,0 +1,235 @@
+---
+import Base from '../../layouts/Base.astro';
+import ComingSoon from '../../components/ComingSoon.astro';
+import HeroViz from '../../components/HeroViz.astro';
+import { COMING_SOON } from '../../config';
+import { services, type ServicePage } from '../../data/services';
+
+const vizMap: Record<string, string> = {
+  seo: 'seo',
+  'paid-media': 'paid',
+  'web-design': 'web',
+  analytics: 'analytics',
+  'email-marketing': 'email',
+  'brand-strategy': 'brand',
+};
+
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: ServicePage;
+}
+const { service } = Astro.props;
+const viz = vizMap[service.slug] ?? 'growth';
+const others = services.filter((s) => s.slug !== service.slug);
+const SITE = 'https://verapeakdigital.com';
+const url = `${SITE}/services/${service.slug}/`;
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.name,
+  serviceType: service.name,
+  description: service.description,
+  url,
+  provider: { '@type': 'ProfessionalService', name: 'Verapeak Digital' },
+  areaServed: { '@type': 'Country', name: 'United States' },
+};
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE}/services/` },
+    { '@type': 'ListItem', position: 3, name: service.name, item: url },
+  ],
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: service.faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+{COMING_SOON ? <ComingSoon /> : (
+<Base title={service.title} description={service.description}>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/services">Services</a>
+        <span aria-hidden="true">/</span>
+        <span class="crumb-current">{service.name}</span>
+      </nav>
+      <div class="svc-hero-grid">
+        <div>
+          <span class="eyebrow">{service.tag}</span>
+          <h1>{service.headline}</h1>
+          <p class="lead">{service.intro}</p>
+          <div class="hero-actions">
+            <a href="/contact" class="btn btn-primary btn-lg">Get a proposal</a>
+            <a href="/services" class="btn btn-ghost btn-lg">All services</a>
+          </div>
+        </div>
+        <div class="svc-hero-viz" data-reveal style="--reveal-delay:120ms">
+          <HeroViz variant={viz} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="outcomes-band">
+    <div class="container grid grid-3">
+      {service.outcomes.map((o, i) => (
+        <div class="outcome" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+          <div class="outcome-value">{o.value}</div>
+          <div class="outcome-label">{o.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">What's included</span>
+        <h2>How we run {service.name.toLowerCase()}.</h2>
+      </div>
+      <div class="grid grid-2">
+        {service.includes.map((inc, i) => (
+          <div class="inc" data-reveal style={`--reveal-delay:${(i % 2) * 60}ms`}>
+            <span class="inc-check" aria-hidden="true"></span>
+            <div>
+              <h3>{inc.h}</h3>
+              <p>{inc.p}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <h2>{service.name} questions</h2>
+      </div>
+      <div class="faq-list">
+        {service.faqs.map((f, i) => (
+          <details class="faq-item" data-reveal style={`--reveal-delay:${i * 40}ms`}>
+            <summary><span>{f.q}</span><span class="faq-mark" aria-hidden="true"></span></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section related">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">More services</span>
+        <h2>Explore the rest of the funnel.</h2>
+      </div>
+      <div class="related-grid">
+        {others.map((s, i) => (
+          <a href={`/services/${s.slug}`} class="related-card" data-reveal style={`--reveal-delay:${i * 50}ms`}>
+            <span class="svc-tag">{s.tag}</span>
+            <h3>{s.name}</h3>
+            <p>{s.cardDesc}</p>
+            <span class="svc-link">Learn more <span aria-hidden="true">&rarr;</span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-banner" data-reveal>
+        <h2>Want this for your business?</h2>
+        <p>Get a free audit and a clear plan for {service.name.toLowerCase()}. No pressure, no jargon.</p>
+        <a href="/contact" class="btn btn-primary btn-lg">Get a proposal</a>
+      </div>
+    </div>
+  </section>
+</Base>
+)}
+
+<script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<style>
+  .page-hero {
+    background: radial-gradient(80% 120% at 92% -10%, var(--bg-tint) 0%, transparent 52%), var(--bg);
+    padding-block: clamp(40px, 6vw, 72px);
+  }
+  .svc-hero-grid { display: grid; gap: 40px; align-items: center; }
+  .svc-hero-viz { min-width: 0; }
+  @media (min-width: 920px) { .svc-hero-grid { grid-template-columns: 1.05fr 0.95fr; gap: 56px; } }
+  .crumbs { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 0.9rem; color: var(--text-faint); margin-bottom: 22px; }
+  .crumbs a { color: var(--text-muted); }
+  .crumbs a:hover { color: var(--teal); }
+  .crumb-current { color: var(--ink); font-weight: 500; }
+  .page-hero h1 { margin: 10px 0 18px; max-width: 16ch; }
+  .page-hero .lead { max-width: 60ch; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+
+  .outcomes-band { border-block: 1px solid var(--border); background: var(--bg-soft); padding-block: clamp(36px, 5vw, 56px); }
+  .outcome { text-align: left; border-left: 2px solid var(--border-strong); padding-left: 18px; }
+  .outcome-value { font-family: var(--font-display); font-size: clamp(1.9rem, 3.6vw, 2.6rem); font-weight: 800; color: var(--teal); letter-spacing: -0.03em; line-height: 1; }
+  .outcome-label { font-size: 0.92rem; color: var(--text-muted); margin-top: 10px; }
+
+  .section-head { max-width: 56ch; margin-bottom: 44px; }
+  .section-head.center { margin-inline: auto; text-align: center; }
+
+  .inc { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+  .inc-check { position: relative; width: 24px; height: 24px; border-radius: 7px; background: var(--bg-tint); flex: none; margin-top: 3px; }
+  .inc-check::before { content: ''; position: absolute; left: 7px; top: 8px; width: 9px; height: 5px; border-left: 2px solid var(--teal); border-bottom: 2px solid var(--teal); transform: rotate(-45deg); }
+  .inc h3 { font-size: 1.12rem; margin-bottom: 6px; }
+
+  .faq { background: var(--bg-soft); }
+  .faq-list { max-width: 820px; margin: 0 auto; display: grid; gap: 14px; }
+  .faq-item { background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius); padding: 2px 24px; }
+  .faq-item[open] { border-color: var(--border-strong); box-shadow: var(--shadow-sm); }
+  .faq-item summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 20px 0; font-family: var(--font-display); font-weight: 600; font-size: 1.08rem; color: var(--ink); }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-mark { position: relative; width: 16px; height: 16px; flex: none; }
+  .faq-mark::before, .faq-mark::after { content: ''; position: absolute; background: var(--teal); border-radius: 2px; }
+  .faq-mark::before { top: 7px; left: 0; width: 16px; height: 2px; }
+  .faq-mark::after { top: 0; left: 7px; width: 2px; height: 16px; transition: transform 0.2s var(--ease); }
+  .faq-item[open] .faq-mark::after { transform: scaleY(0); }
+  .faq-item p { margin: 0; padding: 0 0 22px; max-width: 70ch; color: var(--text-muted); }
+
+  .related-grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+  .related-card { background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px; display: flex; flex-direction: column; gap: 8px; transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease); }
+  .related-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--border-strong); }
+  .related-card .svc-tag { align-self: flex-start; font-size: 0.74rem; font-weight: 600; color: var(--teal); background: var(--bg-tint); padding: 5px 11px; border-radius: var(--radius-pill); }
+  .related-card h3 { margin-top: 4px; }
+  .related-card p { color: var(--text-muted); }
+  .related-card .svc-link { font-weight: 600; font-size: 0.95rem; margin-top: auto; padding-top: 6px; color: var(--teal); }
+
+  .cta-section { padding-top: 0; }
+  .cta-banner {
+    background: radial-gradient(120% 140% at 85% -20%, rgba(45, 212, 191, 0.25) 0%, transparent 55%),
+      linear-gradient(120deg, var(--ink) 0%, var(--teal-dark) 130%);
+    border-radius: 28px; padding: clamp(48px, 7vw, 88px); text-align: center; box-shadow: var(--shadow-lg);
+  }
+  .cta-banner h2 { color: #fff; }
+  .cta-banner p { color: #bfe0dc; margin: 16px auto 30px; max-width: 46ch; }
+
+  @media (min-width: 760px) {
+    .related-grid { grid-template-columns: 1fr 1fr 1fr; }
+  }
+</style>

@@ -1,0 +1,201 @@
+---
+import Base from '../layouts/Base.astro';
+import ComingSoon from '../components/ComingSoon.astro';
+import HeroViz from '../components/HeroViz.astro';
+import { COMING_SOON } from '../config';
+
+const values = [
+  { title: 'Outcomes over outputs', desc: 'We measure success in revenue and pipeline, not impressions, vanity metrics, or busywork.' },
+  { title: 'Radical transparency', desc: 'Live dashboards, plain-English reporting, and honest conversations even when the news is hard.' },
+  { title: 'Senior by default', desc: 'The specialists who win your business are the ones who do the work. No junior hand-offs.' },
+  { title: 'Compounding growth', desc: 'We build durable marketing assets that keep paying off long after the campaign ends.' },
+];
+
+const facts = [
+  { value: '6 yrs', label: 'Marketing behavioral health' },
+  { value: 'Knoxville', label: 'Based in TN, serving the US' },
+  { value: '1:1', label: 'Senior attention, no juniors' },
+  { value: '100%', label: 'Spend visibility, always' },
+];
+
+const founderSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Dean Bishop',
+  jobTitle: 'Founder & Growth Strategist',
+  worksFor: { '@type': 'Organization', name: 'Verapeak Digital' },
+  knowsAbout: ['Behavioral health marketing', 'Small business marketing', 'Search engine optimization', 'Paid media'],
+  description:
+    'Founder of Verapeak Digital with six years of experience marketing behavioral health practices and small businesses.',
+};
+---
+
+{COMING_SOON ? <ComingSoon /> : (
+<Base title="About Verapeak Digital | Knoxville Marketing for Small Business" description="Meet Verapeak Digital, a Knoxville-based marketing agency for small businesses. Founded by Dean Bishop after six years marketing behavioral health: transparent, senior-led, and serving clients nationwide.">
+  <section class="page-hero">
+    <div class="container">
+      <div class="ph-grid">
+        <div data-reveal>
+          <span class="eyebrow">About us</span>
+          <h1>Marketing small businesses can finally <span class="text-grad">trust</span>.</h1>
+          <p class="lead">
+            Verapeak Digital is a Knoxville-based marketing agency for small businesses
+            that are done with agencies that overpromise and hide where the money goes.
+            We pair real creativity with hard accountability, so every dollar you invest
+            can be traced to a result.
+          </p>
+        </div>
+        <div class="ph-anim" data-reveal style="--reveal-delay:120ms">
+          <HeroViz variant="reach" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="facts-band">
+    <div class="container grid grid-4">
+      {facts.map((f, i) => (
+        <div class="fact" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+          <div class="fact-value">{f.value}</div>
+          <div class="fact-label">{f.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container story">
+      <div class="story-head" data-reveal>
+        <span class="eyebrow">Why Verapeak exists</span>
+        <h2>Built for the businesses agencies overlook.</h2>
+      </div>
+      <div class="story-body" data-reveal>
+        <p>
+          Verapeak started after watching too many small businesses hand their budget
+          to an agency, only to get glossy reports that never answered the one question
+          that matters: where did the money go, and did it actually work?
+        </p>
+        <p>
+          Founder Dean Bishop spent six years marketing behavioral health practices,
+          where every dollar and every lead has to be accountable to real outcomes. He
+          built Verapeak to bring that same rigor and transparency to small businesses
+          everywhere, from right here in Knoxville to anywhere in the country.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section values-section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>The values behind the work.</h2>
+      </div>
+      <div class="grid grid-2">
+        {values.map((v, i) => (
+          <div class="value" data-reveal style={`--reveal-delay:${(i % 2) * 70}ms`}>
+            <span class="value-n">0{i + 1}</span>
+            <div>
+              <h3>{v.title}</h3>
+              <p>{v.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section founder-section">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <h2>Meet the founder</h2>
+      </div>
+      <div class="founder-card" data-reveal>
+        <div class="avatar founder-avatar">DB</div>
+        <div class="founder-body">
+          <h3>Dean Bishop</h3>
+          <p class="founder-role">Founder &amp; Growth Strategist</p>
+          <p>
+            Dean spent six years leading marketing for behavioral health practices and
+            treatment centers, where compliance, sensitivity, and real intake numbers
+            leave no room for vanity metrics. He started Verapeak Digital to give small
+            businesses that same accountability: senior attention, honest reporting, and
+            a live view of exactly where every dollar goes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(founderSchema)} />
+
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-banner" data-reveal>
+        <h2>Let's build something that climbs.</h2>
+        <p>We take on a limited number of partners each quarter to keep our work senior and focused.</p>
+        <a href="/contact" class="btn btn-primary btn-lg">Get a proposal</a>
+      </div>
+    </div>
+  </section>
+</Base>
+)}
+
+<style>
+  .page-hero {
+    background: radial-gradient(80% 120% at 92% -10%, var(--bg-tint) 0%, transparent 52%), var(--bg);
+    padding-block: clamp(48px, 7vw, 88px);
+  }
+  .ph-grid { display: grid; gap: 40px; align-items: center; }
+  .page-hero h1 { margin: 10px 0 18px; }
+  .ph-photo img { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); aspect-ratio: 10/11; object-fit: cover; }
+
+  .facts-band { border-block: 1px solid var(--border); background: var(--bg-soft); padding-block: clamp(40px, 5vw, 60px); }
+  .fact { text-align: left; border-left: 2px solid var(--border-strong); padding-left: 18px; }
+  .fact-value { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--ink); letter-spacing: -0.04em; line-height: 1; }
+  .fact-label { font-size: 0.9rem; color: var(--text-muted); margin-top: 8px; }
+
+  .story { display: grid; gap: 32px; align-items: start; }
+  .story-body { display: grid; gap: 18px; }
+  .story-body p { font-size: 1.08rem; }
+
+  .values-section { background: var(--bg-soft); }
+  .value { display: grid; grid-template-columns: auto 1fr; gap: 18px; }
+  .value-n { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; color: var(--mint); }
+  .value h3 { margin-bottom: 7px; }
+
+  .member { text-align: center; }
+  .avatar {
+    width: 88px; height: 88px; margin: 0 auto 16px; display: grid; place-items: center;
+    font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; color: #fff;
+    background: linear-gradient(135deg, var(--teal), var(--mint)); border-radius: 50%;
+  }
+  .member h3 { font-size: 1.1rem; }
+  .member p { font-size: 0.9rem; }
+
+  .founder-card {
+    max-width: 760px; margin: 0 auto; display: grid; gap: 26px; align-items: start;
+    background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 40px; box-shadow: var(--shadow-sm);
+  }
+  .founder-avatar { width: 96px; height: 96px; margin: 0; font-size: 1.8rem; }
+  .founder-body h3 { font-size: 1.45rem; }
+  .founder-role { color: var(--teal); font-weight: 600; margin-bottom: 14px; }
+  @media (min-width: 620px) {
+    .founder-card { grid-template-columns: auto 1fr; gap: 36px; }
+  }
+
+  .cta-section { padding-top: 0; }
+  .cta-banner {
+    background: radial-gradient(120% 140% at 85% -20%, rgba(45, 212, 191, 0.25) 0%, transparent 55%),
+      linear-gradient(120deg, var(--ink) 0%, var(--teal-dark) 130%);
+    border-radius: 28px; padding: clamp(48px, 7vw, 88px); text-align: center; box-shadow: var(--shadow-lg);
+  }
+  .cta-banner h2 { color: #fff; }
+  .cta-banner p { color: #bfe0dc; margin: 16px auto 30px; max-width: 50ch; }
+
+  @media (min-width: 820px) {
+    .story { grid-template-columns: 0.9fr 1.1fr; gap: 64px; }
+  }
+  @media (min-width: 940px) {
+    .ph-grid { grid-template-columns: 1.05fr 0.95fr; gap: 60px; }
+  }
+</style>

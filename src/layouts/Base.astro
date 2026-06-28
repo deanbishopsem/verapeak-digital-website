@@ -6,12 +6,49 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
 }
 
+const SITE = 'https://verapeakdigital.com';
 const {
-  title = 'Verapeak Digital — Data-Driven Marketing Agency',
-  description = 'Verapeak Digital is a full-service digital marketing agency helping brands climb to the peak with SEO, paid media, web design, and analytics.',
+  title = 'Knoxville Digital Marketing Agency for Small Business | Verapeak',
+  description = 'Verapeak Digital is a Knoxville-based digital marketing agency serving small businesses nationwide. Transparent, full-funnel SEO, paid media, and web design, so you see exactly where every dollar goes.',
+  image = '/assets/og-image.jpg',
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE).href;
+const ogImage = new URL(image, Astro.site ?? SITE).href;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Verapeak Digital',
+  description:
+    'Knoxville-based digital marketing agency serving small businesses nationwide with transparent, full-funnel marketing: SEO, paid media, web design, and analytics.',
+  url: SITE,
+  logo: `${SITE}/assets/logo.png`,
+  image: ogImage,
+  email: 'deanbishopsem@gmail.com',
+  telephone: '+1-828-767-5641',
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Knoxville',
+    addressRegion: 'TN',
+    addressCountry: 'US',
+  },
+  areaServed: { '@type': 'Country', name: 'United States' },
+  founder: { '@type': 'Person', name: 'Dean Bishop', jobTitle: 'Founder & Growth Strategist' },
+  knowsAbout: [
+    'Digital marketing',
+    'Search engine optimization',
+    'Paid media',
+    'Conversion rate optimization',
+    'Behavioral health marketing',
+    'Small business marketing',
+  ],
+  slogan: 'Reach the peak of your market.',
+};
 ---
 
 <!doctype html>
@@ -22,13 +59,23 @@ const {
     <link rel="icon" type="image/svg+xml" href="/assets/logo-square.svg" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Verapeak Digital" />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter+Tight:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -49,3 +96,25 @@ const {
   }
   main { flex: 1; }
 </style>
+
+<script>
+  // Reveal-on-scroll: IntersectionObserver only (no scroll listeners).
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const els = document.querySelectorAll('[data-reveal]');
+  if (prefersReduced || !('IntersectionObserver' in window)) {
+    els.forEach((el) => el.classList.add('is-in'));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-in');
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.16, rootMargin: '0px 0px -8% 0px' }
+    );
+    els.forEach((el) => io.observe(el));
+  }
+</script>

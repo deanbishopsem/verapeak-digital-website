@@ -1,7 +1,24 @@
 ---
-// Any path other than "/" falls through to here while the site is paused,
-// so every visitor sees the coming-soon page regardless of the URL they try.
+import Base from '../layouts/Base.astro';
 import ComingSoon from '../components/ComingSoon.astro';
+import { COMING_SOON } from '../config';
 ---
 
-<ComingSoon />
+{COMING_SOON ? <ComingSoon /> : (
+<Base title="Page not found · Verapeak Digital">
+  <section class="nf">
+    <div class="container">
+      <span class="eyebrow">Error 404</span>
+      <h1>This page took a different path.</h1>
+      <p class="lead">The page you were looking for is not here. Let us get you back on track.</p>
+      <a href="/" class="btn btn-primary btn-lg">Back to home</a>
+    </div>
+  </section>
+</Base>
+)}
+
+<style>
+  .nf { padding-block: clamp(96px, 16vw, 200px); }
+  .nf h1 { margin: 10px 0 18px; max-width: 16ch; }
+  .nf .btn { margin-top: 30px; }
+</style>

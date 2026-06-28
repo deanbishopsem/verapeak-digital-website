@@ -1,0 +1,101 @@
+---
+import Base from '../../layouts/Base.astro';
+import ComingSoon from '../../components/ComingSoon.astro';
+import { COMING_SOON } from '../../config';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const SITE = 'https://verapeakdigital.com';
+const url = `${SITE}/blog/${post.slug}/`;
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate.toISOString(),
+  ...(post.data.updatedDate ? { dateModified: post.data.updatedDate.toISOString() } : {}),
+  author: { '@type': 'Person', name: post.data.author },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Verapeak Digital',
+    logo: { '@type': 'ImageObject', url: `${SITE}/assets/logo.png` },
+  },
+  image: `${SITE}${post.data.heroImage}`,
+  mainEntityOfPage: url,
+  url,
+};
+---
+
+{COMING_SOON ? <ComingSoon /> : (
+<Base title={`${post.data.title} | Verapeak Digital`} description={post.data.description} image={post.data.heroImage}>
+  <article class="section post">
+    <div class="container post-inner">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/blog">Blog</a>
+      </nav>
+      <header class="post-head" data-reveal>
+        <div class="post-meta">
+          {fmt(post.data.pubDate)} · {post.data.author}{post.data.tags[0] ? ` · ${post.data.tags[0]}` : ''}
+        </div>
+        <h1>{post.data.title}</h1>
+        <p class="lead">{post.data.description}</p>
+      </header>
+      <img class="post-hero-img" style="display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:fill;border-radius:var(--radius-lg);" src={`${post.data.heroImage}?v=3`} alt={post.data.heroImageAlt} width="1200" height="400" data-reveal />
+      <div class="prose" data-reveal>
+        <Content />
+      </div>
+      <div class="post-foot">
+        <a href="/blog" class="svc-link">&larr; Back to all posts</a>
+        <a href="/contact" class="btn btn-primary">Get a proposal</a>
+      </div>
+    </div>
+  </article>
+</Base>
+)}
+
+<script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+<style>
+  .post { padding-block: clamp(40px, 6vw, 72px); }
+  .post-inner { max-width: 760px; }
+  .crumbs { display: flex; gap: 8px; align-items: center; font-size: 0.9rem; color: var(--text-faint); margin-bottom: 26px; }
+  .crumbs a { color: var(--text-muted); }
+  .crumbs a:hover { color: var(--teal); }
+  .post-meta { font-size: 0.88rem; color: var(--text-faint); font-weight: 500; margin-bottom: 14px; }
+  .post-head h1 { font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.08; }
+  .post-head .lead { margin-top: 18px; }
+  .post-hero-img { width: 100%; height: auto; border-radius: var(--radius-lg); margin-top: 32px; box-shadow: var(--shadow); }
+
+  .prose { margin-top: 40px; }
+  .prose :global(h2) { font-family: var(--font-display); font-size: 1.6rem; line-height: 1.15; color: var(--ink); margin: 44px 0 14px; letter-spacing: -0.02em; }
+  .prose :global(h3) { font-size: 1.2rem; color: var(--ink); margin: 30px 0 10px; }
+  .prose :global(p) { color: var(--text); font-size: 1.08rem; line-height: 1.75; margin: 0 0 20px; }
+  .prose :global(ul) { margin: 0 0 20px; padding-left: 0; list-style: none; display: grid; gap: 10px; }
+  .prose :global(li) { position: relative; padding-left: 28px; color: var(--text); font-size: 1.05rem; line-height: 1.6; }
+  .prose :global(li)::before { content: ''; position: absolute; left: 4px; top: 10px; width: 9px; height: 5px; border-left: 2px solid var(--teal); border-bottom: 2px solid var(--teal); transform: rotate(-45deg); }
+  .prose :global(strong) { color: var(--ink); font-weight: 700; }
+  .prose :global(a) { color: var(--teal); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .prose :global(a:hover) { color: var(--teal-dark); }
+  .prose :global(em) { font-style: italic; }
+
+  .post-foot {
+    display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between;
+    margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border);
+  }
+  .post-foot .svc-link { font-weight: 600; color: var(--teal); }
+</style>
