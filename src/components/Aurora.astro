@@ -1,78 +1,83 @@
 ---
-// Soft, slow-drifting aurora background. Drop inside a `.has-aurora` section
-// (which provides position:relative + overflow:hidden) as the first child.
+// Aurora background.
+//  - variant="northern": dramatic green "northern lights" for DARK sections
+//    (drifting, shimmering teal/mint curtains over a dark base).
+//  - variant="light": subtle soft blobs for light sections.
+// Drop inside a `.has-aurora` section as the first child.
 interface Props {
-  variant?: 'light' | 'dark';
+  variant?: 'northern' | 'light';
 }
-const { variant = 'light' } = Astro.props;
+const { variant = 'northern' } = Astro.props;
 ---
 
-<div class:list={['aurora', `aurora-${variant}`]} aria-hidden="true">
-  <span class="aurora-b b1"></span>
-  <span class="aurora-b b2"></span>
-  <span class="aurora-b b3"></span>
-</div>
+{variant === 'northern' ? (
+  <div class="aurora aurora-northern" aria-hidden="true">
+    <span class="nl-glow"></span>
+    <span class="nl nl1"></span>
+    <span class="nl nl2"></span>
+    <span class="nl nl3"></span>
+    <span class="nl nl4"></span>
+    <span class="nl nl5"></span>
+  </div>
+) : (
+  <div class="aurora aurora-light" aria-hidden="true">
+    <span class="aurora-b b1"></span>
+    <span class="aurora-b b2"></span>
+    <span class="aurora-b b3"></span>
+  </div>
+)}
 
 <style>
-  .aurora {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
+  .aurora { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+
+  /* ---------- Northern lights (dark sections) ---------- */
+  .aurora-northern { background: linear-gradient(180deg, #05130f 0%, #07191400 100%), #061410; }
+  .nl-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(120% 70% at 50% -15%, rgba(45, 212, 191, 0.22), transparent 60%);
   }
-  .aurora-b {
+  .nl {
     position: absolute;
+    top: -25%;
+    height: 150%;
+    width: 30%;
     border-radius: 50%;
-    filter: blur(90px);
-    will-change: transform;
+    filter: blur(50px);
+    mix-blend-mode: screen;
+    will-change: transform, opacity;
+  }
+  .nl1 { left: -2%;  background: linear-gradient(180deg, transparent, rgba(45, 212, 191, 0.55), transparent 85%); animation: nlA 17s ease-in-out infinite alternate; }
+  .nl2 { left: 22%;  background: linear-gradient(180deg, transparent, rgba(94, 234, 212, 0.5), transparent 80%);  animation: nlB 23s ease-in-out infinite alternate; }
+  .nl3 { left: 45%;  background: linear-gradient(180deg, transparent, rgba(15, 118, 110, 0.65), transparent 88%); animation: nlC 20s ease-in-out infinite alternate; }
+  .nl4 { left: 66%;  background: linear-gradient(180deg, transparent, rgba(45, 212, 191, 0.5), transparent 82%);  animation: nlB 26s ease-in-out infinite alternate; }
+  .nl5 { left: 84%;  background: linear-gradient(180deg, transparent, rgba(94, 234, 212, 0.42), transparent 80%); animation: nlA 21s ease-in-out infinite alternate; }
+
+  @keyframes nlA {
+    0%   { transform: rotate(14deg) translateX(-12%) scaleY(0.9); opacity: 0.35; }
+    50%  { transform: rotate(10deg) translateX(4%)  scaleY(1.1); opacity: 0.65; }
+    100% { transform: rotate(16deg) translateX(16%) scaleY(0.95); opacity: 0.4; }
+  }
+  @keyframes nlB {
+    0%   { transform: rotate(-10deg) translateX(10%)  scaleY(1);   opacity: 0.3; }
+    50%  { transform: rotate(-6deg)  translateX(-6%)  scaleY(1.15); opacity: 0.6; }
+    100% { transform: rotate(-12deg) translateX(-16%) scaleY(0.92); opacity: 0.35; }
+  }
+  @keyframes nlC {
+    0%   { transform: rotate(8deg)  translateX(-8%) scaleY(1.05); opacity: 0.4; }
+    50%  { transform: rotate(12deg) translateX(8%)  scaleY(0.9);  opacity: 0.7; }
+    100% { transform: rotate(6deg)  translateX(18%) scaleY(1.1);  opacity: 0.45; }
   }
 
-  /* light sections */
-  .aurora-light .b1 {
-    width: min(46vw, 620px); height: min(46vw, 620px);
-    top: -16%; right: -8%;
-    background: rgba(45, 212, 191, 0.18);
-    animation: auroraA 26s ease-in-out infinite alternate;
-  }
-  .aurora-light .b2 {
-    width: min(38vw, 520px); height: min(38vw, 520px);
-    bottom: -22%; left: -10%;
-    background: rgba(15, 118, 110, 0.14);
-    animation: auroraB 32s ease-in-out infinite alternate;
-  }
-  .aurora-light .b3 {
-    width: min(30vw, 420px); height: min(30vw, 420px);
-    top: 24%; left: 46%;
-    background: rgba(94, 234, 212, 0.12);
-    animation: auroraC 22s ease-in-out infinite alternate;
-  }
-
-  /* dark sections */
-  .aurora-dark .b1 {
-    width: min(46vw, 620px); height: min(46vw, 620px);
-    top: -18%; right: -6%;
-    background: rgba(45, 212, 191, 0.28);
-    animation: auroraA 26s ease-in-out infinite alternate;
-  }
-  .aurora-dark .b2 {
-    width: min(38vw, 520px); height: min(38vw, 520px);
-    bottom: -24%; left: -8%;
-    background: rgba(15, 118, 110, 0.3);
-    animation: auroraB 32s ease-in-out infinite alternate;
-  }
-  .aurora-dark .b3 {
-    width: min(30vw, 420px); height: min(30vw, 420px);
-    top: 20%; left: 50%;
-    background: rgba(94, 234, 212, 0.18);
-    animation: auroraC 22s ease-in-out infinite alternate;
-  }
-
-  @keyframes auroraA { from { transform: translate(0, 0) scale(1); } to { transform: translate(-7%, 9%) scale(1.08); } }
-  @keyframes auroraB { from { transform: translate(0, 0) scale(1); } to { transform: translate(9%, -6%) scale(1.1); } }
-  @keyframes auroraC { from { transform: translate(0, 0) scale(1); } to { transform: translate(-5%, -8%) scale(1.06); } }
+  /* ---------- Soft blobs (light sections) ---------- */
+  .aurora-b { position: absolute; border-radius: 50%; filter: blur(90px); will-change: transform; }
+  .aurora-light .b1 { width: min(46vw, 620px); height: min(46vw, 620px); top: -16%; right: -8%; background: rgba(45, 212, 191, 0.18); animation: blobA 26s ease-in-out infinite alternate; }
+  .aurora-light .b2 { width: min(38vw, 520px); height: min(38vw, 520px); bottom: -22%; left: -10%; background: rgba(15, 118, 110, 0.14); animation: blobB 32s ease-in-out infinite alternate; }
+  .aurora-light .b3 { width: min(30vw, 420px); height: min(30vw, 420px); top: 24%; left: 46%; background: rgba(94, 234, 212, 0.12); animation: blobC 22s ease-in-out infinite alternate; }
+  @keyframes blobA { from { transform: translate(0, 0) scale(1); } to { transform: translate(-7%, 9%) scale(1.08); } }
+  @keyframes blobB { from { transform: translate(0, 0) scale(1); } to { transform: translate(9%, -6%) scale(1.1); } }
+  @keyframes blobC { from { transform: translate(0, 0) scale(1); } to { transform: translate(-5%, -8%) scale(1.06); } }
 
   @media (prefers-reduced-motion: reduce) {
-    .aurora-b { animation: none; }
+    .nl, .aurora-b { animation: none; }
   }
 </style>

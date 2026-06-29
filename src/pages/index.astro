@@ -135,7 +135,8 @@ const faqSchema = {
   </section>
 
   <!-- Positioning statement -->
-  <section class="section position-band">
+  <section class="section position-band has-aurora dark-section">
+    <Aurora variant="northern" />
     <div class="container">
       <p class="pos-statement" data-reveal>
         We're not here to run campaigns.<br />We're here to <span class="text-grad">grow your business</span>.
@@ -211,7 +212,8 @@ const faqSchema = {
   </section>
 
   <!-- Process -->
-  <section class="section process">
+  <section class="section process has-aurora dark-section">
+    <Aurora variant="northern" />
     <div class="container">
       <div class="proc-grid">
         <div class="proc-intro" data-reveal>
@@ -235,8 +237,7 @@ const faqSchema = {
   </section>
 
   <!-- Promise + growth animation -->
-  <section class="section growth-promise has-aurora">
-    <Aurora variant="light" />
+  <section class="section growth-promise">
     <div class="container gp-grid">
       <div class="gp-copy" data-reveal>
         <span class="eyebrow">Our promise</span>
@@ -423,6 +424,18 @@ const faqSchema = {
     font-size: clamp(1.02rem, 1.5vw, 1.18rem);
     color: var(--text-muted);
   }
+
+  /* DARK "NORTHERN LIGHTS" SECTIONS */
+  .dark-section { background: #061410; }
+  .dark-section h2, .dark-section h3 { color: #fff; }
+  .dark-section .pos-statement { color: #fff; }
+  .dark-section .pos-sub { color: #bfe0dc; }
+  .dark-section .lead { color: #bfe0dc; }
+  .dark-section .step { border-top-color: rgba(255, 255, 255, 0.12); }
+  .dark-section .step p { color: #a9c9c4; }
+  .dark-section .step-n { color: var(--mint); }
+  .dark-section .btn-ghost { color: #fff; border-color: rgba(255, 255, 255, 0.28); }
+  .dark-section .btn-ghost:hover { background: rgba(255, 255, 255, 0.08); border-color: var(--mint); color: #fff; }
 
   /* SERVICES */
   .services { background: var(--bg-soft); }
