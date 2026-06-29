@@ -135,8 +135,7 @@ const faqSchema = {
   </section>
 
   <!-- Positioning statement -->
-  <section class="section position-band has-aurora dark-section">
-    <Aurora variant="northern" />
+  <section class="section position-band">
     <div class="container">
       <p class="pos-statement" data-reveal>
         We're not here to run campaigns.<br />We're here to <span class="text-grad">grow your business</span>.
@@ -300,7 +299,8 @@ const faqSchema = {
   </section>
 
   <!-- FAQ (long-tail, schema-backed) -->
-  <section class="section faq">
+  <section class="section faq has-aurora dark-section">
+    <Aurora variant="northern" />
     <div class="container">
       <div class="section-head center" data-reveal>
         <h2>Questions small businesses ask us</h2>
@@ -436,6 +436,17 @@ const faqSchema = {
   .dark-section .step-n { color: var(--mint); }
   .dark-section .btn-ghost { color: #fff; border-color: rgba(255, 255, 255, 0.28); }
   .dark-section .btn-ghost:hover { background: rgba(255, 255, 255, 0.08); border-color: var(--mint); color: #fff; }
+  /* Dark FAQ: translucent cards floating over the aurora */
+  .dark-section.faq { background: #061410; }
+  .dark-section .faq-item {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(4px);
+  }
+  .dark-section .faq-item[open] { border-color: rgba(94, 234, 212, 0.45); box-shadow: none; }
+  .dark-section .faq-item summary { color: #fff; }
+  .dark-section .faq-item p { color: #bfe0dc; }
+  .dark-section .faq-mark::before, .dark-section .faq-mark::after { background: var(--mint); }
 
   /* SERVICES */
   .services { background: var(--bg-soft); }
