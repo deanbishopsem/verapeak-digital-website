@@ -1,0 +1,6 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Verapeak">
+  <rect width="100" height="100" rx="22" fill="#0B201F"/>
+  <rect x="17" y="48" width="16" height="24" rx="4" fill="#0F766E"/>
+  <rect x="42" y="36" width="16" height="36" rx="4" fill="#2DD4BF"/>
+  <rect x="67" y="24" width="16" height="48" rx="4" fill="#5EEAD4"/>
+</svg>
