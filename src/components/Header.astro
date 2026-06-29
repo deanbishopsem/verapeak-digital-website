@@ -45,6 +45,10 @@ const links = [
       ))}
     </nav>
 
+    <a href="https://app.verapeakdigital.com/" target="_blank" rel="noopener" class="client-cta">
+      Client Login
+      <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
     <a href="/contact" class="btn btn-primary header-cta">Get a proposal</a>
 
     <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
@@ -58,6 +62,7 @@ const links = [
         {l.label}
       </a>
     ))}
+    <a href="https://app.verapeakdigital.com/" target="_blank" rel="noopener" class="nav-link mobile-client">Client Login &#8599;</a>
     <a href="/contact" class="btn btn-primary">Get a proposal</a>
   </nav>
 </header>
@@ -154,6 +159,25 @@ const links = [
 
   .header-cta { display: none; padding: 11px 22px; font-size: 0.95rem; }
 
+  /* Client dashboard login (secondary, ghost) */
+  .client-cta {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10px 16px;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--border-strong);
+    color: var(--ink);
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .client-cta:hover { border-color: var(--teal); color: var(--teal); }
+  .client-cta svg { opacity: 0.7; }
+  .site-header.over-hero .client-cta { border-color: rgba(255, 255, 255, 0.35); color: #fff; }
+  .site-header.over-hero .client-cta:hover { border-color: #fff; background: rgba(255, 255, 255, 0.12); }
+  .mobile-client { color: var(--teal) !important; font-weight: 600; }
+
   .menu-toggle {
     display: inline-flex;
     flex-direction: column;
@@ -186,6 +210,7 @@ const links = [
   @media (min-width: 920px) {
     .nav { display: flex; }
     .header-cta { display: inline-flex; }
+    .client-cta { display: inline-flex; }
     .menu-toggle { display: none; }
   }
 </style>
