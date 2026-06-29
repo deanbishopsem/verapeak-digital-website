@@ -341,7 +341,8 @@ const faqSchema = {
   .hero-sticky {
     position: sticky;
     top: 0;
-    height: 100svh;
+    height: 100vh;        /* fallback */
+    height: 100lvh;       /* fill the large viewport so no dark gap appears when the mobile address bar hides */
     min-height: 560px;
     overflow: hidden;
     display: grid;
