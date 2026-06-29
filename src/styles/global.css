@@ -70,6 +70,10 @@ img { max-width: 100%; display: block; }
 .container { max-width: var(--maxw); margin-inline: auto; padding-inline: 28px; }
 .section { padding-block: clamp(72px, 10vw, 132px); }
 
+/* Aurora background helper: section provides the stacking context, content sits above */
+.has-aurora { position: relative; overflow: hidden; isolation: isolate; }
+.has-aurora > .container { position: relative; z-index: 1; }
+
 .eyebrow {
   display: inline-flex;
   align-items: center;

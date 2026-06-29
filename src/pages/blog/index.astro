@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import ComingSoon from '../../components/ComingSoon.astro';
 import HeroViz from '../../components/HeroViz.astro';
+import Aurora from '../../components/Aurora.astro';
 import { COMING_SOON } from '../../config';
 import { getCollection } from 'astro:content';
 
@@ -18,7 +19,8 @@ const fmt = (d: Date) =>
   title="Marketing Blog for Small Businesses | Verapeak Digital"
   description="Practical, no-jargon marketing guides for small businesses: paid media, SEO, analytics, and behavioral health marketing from Verapeak Digital in Knoxville."
 >
-  <section class="page-hero">
+  <section class="page-hero has-aurora">
+    <Aurora variant="light" />
     <div class="container">
       <div class="blog-hero-grid">
         <div>

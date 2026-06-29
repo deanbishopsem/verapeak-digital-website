@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import ComingSoon from '../components/ComingSoon.astro';
 import HeroViz from '../components/HeroViz.astro';
+import Aurora from '../components/Aurora.astro';
 import { COMING_SOON } from '../config';
 import { services } from '../data/services';
 
@@ -14,7 +15,8 @@ const plans = [
 
 {COMING_SOON ? <ComingSoon /> : (
 <Base title="Digital Marketing Services for Small Business | Verapeak" description="SEO, paid media (PPC), web design, analytics, email, and brand strategy for small businesses. One senior, transparent team based in Knoxville, serving clients nationwide.">
-  <section class="page-hero">
+  <section class="page-hero has-aurora">
+    <Aurora variant="light" />
     <div class="container">
       <div class="ph-grid">
         <div data-reveal>

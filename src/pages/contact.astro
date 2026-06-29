@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import ComingSoon from '../components/ComingSoon.astro';
+import Aurora from '../components/Aurora.astro';
 import { COMING_SOON } from '../config';
 
 const services = ['SEO', 'Paid Media & PPC', 'Web Design & Development', 'Analytics & CRO', 'Email & Lifecycle', 'Brand & Strategy', 'Not sure yet'];
@@ -9,7 +10,8 @@ const budgets = ['Under $2k / mo', '$2k to $5k / mo', '$5k to $10k / mo', '$10k+
 
 {COMING_SOON ? <ComingSoon /> : (
 <Base title="Contact Verapeak Digital | Free Marketing Audit, Knoxville & US" description="Get a free growth audit and proposal from Verapeak Digital, a Knoxville-based marketing agency for small businesses nationwide. We reply within one business day.">
-  <section class="page-hero">
+  <section class="page-hero has-aurora">
+    <Aurora variant="light" />
     <div class="container">
       <span class="eyebrow">Contact</span>
       <h1>Let's talk about your <span class="text-grad">growth</span>.</h1>
