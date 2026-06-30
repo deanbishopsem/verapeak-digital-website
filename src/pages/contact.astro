@@ -26,14 +26,10 @@ const budgets = ['Under $2k / mo', '$2k to $5k / mo', '$5k to $10k / mo', '$10k+
       <form
         class="contact-form"
         id="contact-form"
-        action="https://formsubmit.co/deanbishopsem@gmail.com"
+        action="/api/contact"
         method="POST"
         data-reveal
       >
-        <input type="hidden" name="_subject" value="New proposal request from verapeakdigital.com" />
-        <input type="hidden" name="_template" value="table" />
-        <input type="hidden" name="_captcha" value="false" />
-        <input type="hidden" name="_next" value="https://verapeakdigital.com/thank-you" />
         <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;" />
         <div class="field-row">
           <div class="field">
@@ -190,7 +186,7 @@ const budgets = ['Under $2k / mo', '$2k to $5k / mo', '$5k to $10k / mo', '$10k+
     if (errorNote) errorNote.hidden = true;
     if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
     try {
-      const res = await fetch('https://formsubmit.co/ajax/deanbishopsem@gmail.com', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { Accept: 'application/json' },
         body: new FormData(form),

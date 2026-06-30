@@ -79,9 +79,12 @@ export const onRequestPost: (context: { request: Request; env: Env }) => Promise
       )
       .join('');
 
-    const html = `<div style="font-family:-apple-system,Segoe UI,sans-serif;max-width:620px">
-  <div style="background:#0f766e;color:#fff;padding:18px 24px;border-radius:10px 10px 0 0;font:600 16px -apple-system,Segoe UI,sans-serif">New lead from verapeakdigital.com</div>
-  <div style="border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;padding:24px">
+    const html = `<div style="font-family:-apple-system,Segoe UI,sans-serif;max-width:620px;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden">
+  <div style="background:#ffffff;padding:20px 24px;border-bottom:3px solid #0f766e">
+    <img src="https://verapeakdigital.com/assets/logo.png" alt="Verapeak Digital" width="172" style="display:block;width:172px;height:auto;border:0" />
+  </div>
+  <div style="padding:24px">
+    <div style="color:#0f766e;font:600 15px -apple-system,Segoe UI,sans-serif;margin-bottom:18px">New lead from verapeakdigital.com</div>
     <table style="border-collapse:collapse;margin-bottom:18px">${rows}</table>
     <div style="color:#64748b;font:600 13px -apple-system,Segoe UI,sans-serif;margin-bottom:6px">Message</div>
     <div style="font:14px/1.6 -apple-system,Segoe UI,sans-serif;color:#0f172a;white-space:pre-wrap">${esc(message)}</div>
