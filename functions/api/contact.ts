@@ -80,8 +80,8 @@ export const onRequestPost: (context: { request: Request; env: Env }) => Promise
       .join('');
 
     const html = `<div style="font-family:-apple-system,Segoe UI,sans-serif;max-width:620px;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden">
-  <div style="background:#ffffff;padding:20px 24px;border-bottom:3px solid #0f766e">
-    <img src="https://verapeakdigital.com/assets/logo.png" alt="Verapeak Digital" width="172" style="display:block;width:172px;height:auto;border:0" />
+  <div style="background:#0f766e;padding:22px 24px">
+    <img src="https://verapeakdigital.com/assets/logo-email.png" alt="Verapeak Digital" width="190" style="display:block;width:190px;height:auto;border:0" />
   </div>
   <div style="padding:24px">
     <div style="color:#0f766e;font:600 15px -apple-system,Segoe UI,sans-serif;margin-bottom:18px">New lead from verapeakdigital.com</div>
