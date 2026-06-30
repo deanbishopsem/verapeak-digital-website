@@ -51,7 +51,11 @@ const budgets = ['Under $2k / mo', '$2k to $5k / mo', '$5k to $10k / mo', '$10k+
           </div>
           <div class="field">
             <label for="website">Website</label>
-            <input id="website" name="website" type="url" />
+            <input id="website" name="website" type="text" inputmode="url" autocomplete="url" placeholder="yourbusiness.com" />
+            <label class="checkbox-line">
+              <input type="checkbox" id="no-website" name="no_website" value="yes" />
+              <span>I don't have a website yet &mdash; I'd like one built</span>
+            </label>
           </div>
         </div>
 
@@ -144,6 +148,15 @@ const budgets = ['Under $2k / mo', '$2k to $5k / mo', '$5k to $10k / mo', '$10k+
     outline: none; border-color: var(--teal); box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
   }
   textarea { resize: vertical; }
+  .checkbox-line {
+    display: flex; align-items: center; gap: 9px; margin-top: 10px;
+    font-size: 0.88rem; font-weight: 400; color: var(--text-muted); cursor: pointer;
+  }
+  .checkbox-line input[type="checkbox"] {
+    width: 17px; height: 17px; padding: 0; margin: 0; flex: none;
+    accent-color: var(--teal); cursor: pointer;
+  }
+  input[readonly] { background: var(--bg-soft); color: var(--text-faint); cursor: not-allowed; }
   .contact-form .btn { justify-self: start; }
   .form-note { color: var(--teal); font-weight: 600; font-size: 0.95rem; }
   .form-error { color: #c0392b; font-weight: 600; font-size: 0.95rem; }
@@ -181,6 +194,21 @@ const budgets = ['Under $2k / mo', '$2k to $5k / mo', '$5k to $10k / mo', '$10k+
   if (new URLSearchParams(location.search).get('sent') === '1' && note) {
     note.hidden = false;
   }
+
+  // "I don't have a website yet" locks/clears the website input.
+  const noSite = document.getElementById('no-website') as HTMLInputElement | null;
+  const site = document.getElementById('website') as HTMLInputElement | null;
+  noSite?.addEventListener('change', () => {
+    if (!site) return;
+    if (noSite.checked) {
+      site.value = '';
+      site.readOnly = true;
+      site.placeholder = 'No website yet';
+    } else {
+      site.readOnly = false;
+      site.placeholder = 'yourbusiness.com';
+    }
+  });
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();

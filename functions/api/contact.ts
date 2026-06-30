@@ -47,7 +47,10 @@ export const onRequestPost: (context: { request: Request; env: Env }) => Promise
     const name = str(form.get('name'));
     const email = str(form.get('email'));
     const company = str(form.get('company'));
-    const website = str(form.get('website'));
+    const website =
+      str(form.get('no_website')) === 'yes'
+        ? 'No website yet — wants one built'
+        : str(form.get('website'));
     const service = str(form.get('service'));
     const budget = str(form.get('budget'));
     const message = str(form.get('message'));
