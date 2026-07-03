@@ -5,7 +5,7 @@ pubDate: 2026-07-03
 author: "Dean Bishop"
 tags: ["analytics", "call tracking", "small business"]
 heroImage: "/assets/blog/what-is-call-tracking-small-business.png"
-heroImageAlt: "Verapeak Digital blog cover with a call-sources dashboard showing tracked calls per channel, titled What Is Call Tracking?"
+heroImageAlt: "Verapeak Digital blog cover with a glowing phone icon and radar rings, titled What Is Call Tracking?"
 draft: false
 ---
 
