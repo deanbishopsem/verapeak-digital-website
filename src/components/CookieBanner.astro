@@ -18,13 +18,15 @@
   /* the [hidden] attribute must win over display:flex below */
   .cookie-banner[hidden] { display: none; }
   .cookie-banner {
+    /* Docked bottom-right and kept narrow so it doesn't sit over primary page
+       content (contact form, article copy); body padding is reserved via JS. */
     position: fixed;
     left: 18px;
     right: 18px;
     bottom: 18px;
     z-index: 200;
-    margin-inline: auto;
-    max-width: 560px;
+    margin-left: auto;
+    max-width: 420px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -69,17 +71,31 @@
     if (!banner) return;
     var KEY = 'vp-consent';
 
+    function reserveSpace() {
+      // Keep the page's bottom content reachable while the banner is up.
+      document.body.style.paddingBottom = banner.offsetHeight + 36 + 'px';
+    }
+
+    function releaseSpace() {
+      document.body.style.paddingBottom = '';
+    }
+
     function setConsent(value) {
       try { localStorage.setItem(KEY, value); } catch (e) {}
       if (value === 'granted' && typeof window.gtag === 'function') {
         window.gtag('consent', 'update', { analytics_storage: 'granted' });
       }
       banner.setAttribute('hidden', '');
+      releaseSpace();
     }
 
     var stored = null;
     try { stored = localStorage.getItem(KEY); } catch (e) {}
-    if (!stored) banner.removeAttribute('hidden');
+    if (!stored) {
+      banner.removeAttribute('hidden');
+      reserveSpace();
+      window.addEventListener('resize', reserveSpace);
+    }
 
     var accept = banner.querySelector('.cookie-accept');
     var decline = banner.querySelector('.cookie-decline');

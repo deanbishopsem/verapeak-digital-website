@@ -11,9 +11,9 @@
     {
       "name": "astro-preview",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "preview", "--", "--host"],
-      "port": 4321,
-      "autoPort": true
+      "runtimeArgs": ["run", "preview", "--", "--host", "--port", "4399"],
+      "port": 4399,
+      "autoPort": false
     }
   ]
 }
