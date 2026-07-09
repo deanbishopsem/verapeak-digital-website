@@ -11,6 +11,8 @@ interface Env {
   RESEND_API_KEY: string;
   LEAD_TO?: string;
   LEAD_FROM?: string;
+  // Verapeak Insights client ingest key (public). Falls back to the known key.
+  VERAPEAK_INGEST_KEY?: string;
 }
 
 const str = (v: FormDataEntryValue | null) => (v == null ? '' : v.toString().trim());
@@ -24,10 +26,11 @@ const json = (data: unknown, status = 200) =>
     headers: { 'Content-Type': 'application/json' },
   });
 
-export const onRequestPost: (context: { request: Request; env: Env }) => Promise<Response> = async ({
-  request,
-  env,
-}) => {
+export const onRequestPost: (context: {
+  request: Request;
+  env: Env;
+  waitUntil: (p: Promise<unknown>) => void;
+}) => Promise<Response> = async ({ request, env, waitUntil }) => {
   const wantsJson = (request.headers.get('accept') || '').includes('application/json');
   const ok = () =>
     wantsJson
@@ -109,6 +112,28 @@ export const onRequestPost: (context: { request: Request; env: Env }) => Promise
     if (!res.ok) {
       return fail('We could not send your message. Please email us directly.', 502);
     }
+
+    // Record the lead in Verapeak Insights server-side, so EVERY submission is
+    // captured — even bots that never run the page's JavaScript. Attribution
+    // (utm/referrer) rides along via hidden fields when the browser filled them.
+    waitUntil(
+      fetch('https://app.verapeakdigital.com/api/ingest/form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          key: env.VERAPEAK_INGEST_KEY || 'f4893a4b79c9a537b0a9c758ab8bd6a2',
+          name,
+          email,
+          source: 'Website form',
+          utm_source: str(form.get('utm_source')) || undefined,
+          utm_medium: str(form.get('utm_medium')) || undefined,
+          gclid: str(form.get('gclid')) || undefined,
+          fbclid: str(form.get('fbclid')) || undefined,
+          referrer: str(form.get('referrer')) || undefined,
+        }),
+      }).catch(() => {}),
+    );
+
     return ok();
   } catch {
     return fail('Something went wrong. Please email us directly.', 500);

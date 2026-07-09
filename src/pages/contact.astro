@@ -34,6 +34,11 @@ const budgets = ['Under $2k / mo', '$2k to $5k / mo', '$5k to $10k / mo', '$10k+
         <div aria-hidden="true" style="display:none">
           <label>Do not fill this in<input type="text" name="_honey" tabindex="-1" autocomplete="off" /></label>
         </div>
+        <input type="hidden" name="utm_source" />
+        <input type="hidden" name="utm_medium" />
+        <input type="hidden" name="gclid" />
+        <input type="hidden" name="fbclid" />
+        <input type="hidden" name="referrer" />
         <div class="field-row">
           <div class="field">
             <label for="name">Name</label>
@@ -191,6 +196,24 @@ const budgets = ['Under $2k / mo', '$2k to $5k / mo', '$5k to $10k / mo', '$10k+
   const errorNote = document.getElementById('form-error');
   const btn = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
 
+  // Fill hidden attribution fields so /api/contact can attribute the lead's
+  // channel. Prefer first-touch stored by the tracking pixel, else this visit.
+  (() => {
+    if (!form) return;
+    const q = new URLSearchParams(location.search);
+    let ft: Record<string, string> = {};
+    try { ft = JSON.parse(localStorage.getItem('vp_first_touch') || '{}') || {}; } catch {}
+    const set = (n: string, v?: string | null) => {
+      const el = form.querySelector(`[name="${n}"]`) as HTMLInputElement | null;
+      if (el && v) el.value = v;
+    };
+    set('utm_source', q.get('utm_source') || ft.utm_source);
+    set('utm_medium', q.get('utm_medium') || ft.utm_medium);
+    set('gclid', q.get('gclid') || ft.gclid);
+    set('fbclid', q.get('fbclid') || ft.fbclid);
+    set('referrer', ft.referrer || document.referrer);
+  })();
+
   // Show the success note if the visitor was redirected back after a no-JS submit.
   if (new URLSearchParams(location.search).get('sent') === '1' && note) {
     note.hidden = false;
@@ -213,30 +236,6 @@ const budgets = ['Under $2k / mo', '$2k to $5k / mo', '$5k to $10k / mo', '$10k+
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-
-    // Verapeak Insights — first-party lead capture. Sent directly (not via the
-    // pixel) so a fetch/redirect form flow can't drop it. Fire-and-forget.
-    try {
-      const q = new URLSearchParams(location.search);
-      const lead = {
-        key: 'f4893a4b79c9a537b0a9c758ab8bd6a2',
-        name: (document.getElementById('name') as HTMLInputElement | null)?.value || '',
-        email: (document.getElementById('email') as HTMLInputElement | null)?.value || '',
-        source: location.hostname,
-        utm_source: q.get('utm_source') || undefined,
-        utm_medium: q.get('utm_medium') || undefined,
-        gclid: q.get('gclid') || undefined,
-        fbclid: q.get('fbclid') || undefined,
-        referrer: document.referrer || undefined,
-      };
-      navigator.sendBeacon(
-        'https://app.verapeakdigital.com/api/ingest/form',
-        new Blob([JSON.stringify(lead)], { type: 'text/plain' }),
-      );
-    } catch {
-      /* never block the real submission on tracking */
-    }
-
     if (note) note.hidden = true;
     if (errorNote) errorNote.hidden = true;
     if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
